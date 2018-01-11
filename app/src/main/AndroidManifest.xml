@@ -30,7 +30,12 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps">
+            android:label="MapsForOutdoor">
+
+        </activity>
+        <activity
+            android:name=".MapsIndoorActivity"
+            android:label="MapsForIndoor">
 
         </activity>
 

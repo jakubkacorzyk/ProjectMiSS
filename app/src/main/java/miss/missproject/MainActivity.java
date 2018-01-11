@@ -24,4 +24,8 @@ public class MainActivity extends AppCompatActivity {
         Intent aboutScreen = new Intent(this, MapsActivity.class);
         this.startActivity(aboutScreen);
     }
+    public void indoor(View viev){
+        Intent aboutScreen = new Intent(this,MapsIndoorActivity.class);
+        this.startActivity(aboutScreen);
+    }
 }
