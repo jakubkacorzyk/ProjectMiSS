@@ -48,7 +48,7 @@ public class MapsIndoorActivity extends AppCompatActivity
         LocationListener {
 
 
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    private static final int NETWORK_PERMISSION_REQUEST_CODE = 1;
 
     private boolean shouldAddCoordinates = false;
     private List<LatLng> coordinates = new LinkedList<>();
@@ -90,8 +90,8 @@ public class MapsIndoorActivity extends AppCompatActivity
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
-                    2000,
-                    10, this);
+                    1000,
+                    1, this);
             Location location = locationManager.getLastKnownLocation(locationProvider);
             //initialize the location
             if (location != null) {
@@ -109,17 +109,17 @@ public class MapsIndoorActivity extends AppCompatActivity
 
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
-        enableMyLocation();
+        enableMyNetwork();
     }
 
     /**
      * Enables the My Location layer if the fine location permission has been granted.
      */
-    private void enableMyLocation() {
+    private void enableMyNetwork() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             // Permission to access the location is missing.
-            PermissionUtils.requestPermission(this, LOCATION_PERMISSION_REQUEST_CODE,
+            PermissionUtils.requestPermission(this, NETWORK_PERMISSION_REQUEST_CODE,
                     Manifest.permission.ACCESS_COARSE_LOCATION, true);
         } else if (mMap != null) {
             // Access to the location has been granted to the app.
@@ -143,14 +143,14 @@ public class MapsIndoorActivity extends AppCompatActivity
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
+        if (requestCode != NETWORK_PERMISSION_REQUEST_CODE) {
             return;
         }
 
         if (PermissionUtils.isPermissionGranted(permissions, grantResults,
                 Manifest.permission.ACCESS_COARSE_LOCATION)) {
             // Enable the my location layer if the permission has been granted.
-            enableMyLocation();
+            enableMyNetwork();
         } else {
             // Display the missing permission error dialog when the fragments resume.
             mPermissionDenied = true;
@@ -227,7 +227,7 @@ public class MapsIndoorActivity extends AppCompatActivity
 
         Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
         startActivity(intent);
-        Toast.makeText(getBaseContext(), "Gps is turned off!! ",
+        Toast.makeText(getBaseContext(), "Localization is turned off!! ",
                 Toast.LENGTH_SHORT).show();
     }
 
@@ -236,7 +236,7 @@ public class MapsIndoorActivity extends AppCompatActivity
 
         Log.i("called", "onProviderEnabled");
 
-        Toast.makeText(getBaseContext(), "Gps is turned on!! ",
+        Toast.makeText(getBaseContext(), "Localization is turned on!! ",
                 Toast.LENGTH_SHORT).show();
     }
 
