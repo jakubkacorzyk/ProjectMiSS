@@ -1,0 +1,5 @@
+\contentsline {section}{\numberline {1}Opis projektu}{2}
+\contentsline {section}{\numberline {2}Lokalizacja w \IeC {\'s}rodowisku typu outdoor}{2}
+\contentsline {section}{\numberline {3}Lokalizacja w \IeC {\'s}rodowisku typu indoor}{2}
+\contentsline {section}{\numberline {4}Model zjawiska.}{4}
+\contentsline {section}{\numberline {5}Implementacja.}{4}

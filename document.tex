@@ -1,0 +1,177 @@
+\documentclass[11pt]{article}
+\setlength\headheight{13.6pt}%
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+\usepackage{polski}
+\usepackage{mathpazo} % Palatino font
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{etoolbox}
+\usepackage{blindtext}
+\usepackage{geometry}
+\geometry{legalpaper, margin=1in}
+\usepackage[cleardoublepage=plain]{scrextend}
+\graphicspath{ {images/.\ProjectAiMO} } %change to yours path
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{2017/2018}
+\lhead{Projekt z Analizy i Modelowania Oprogramowania}
+\rfoot{Strona \thepage}
+\begin{document}
+	
+	\begin{titlepage} 
+	
+		\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command 
+		
+		\center % Centre everything on the page
+		
+		%------------------------------------------------
+		%	Nagłówki
+		%------------------------------------------------
+		
+		\textsc{\LARGE Akademia Górniczo-Hutnicza im. Stanisława Staszica w Krakowie}\\[1.5cm] % Main heading such as the name of your university/college
+		
+		\textsc{\Large Projekt z Analizy i Modelowania Oprogramowania}\\[0.5cm] % Major heading such as course name
+		
+		\textsc{\large Informatyka EAIiIB 2017/2018}\\[0.5cm] % Minor heading such as course title
+		
+		%------------------------------------------------
+		%	Tytuł
+		%------------------------------------------------
+		
+		\HRule\\[0.4cm]
+		
+		{\huge\bfseries Automat do sprzedaży zakąsek}\\[0.4cm] % Title of your document
+		
+		\HRule\\[1.5cm]
+		
+		%------------------------------------------------
+		%	Authorzy
+		%------------------------------------------------
+		
+		\begin{minipage}{0.4\textwidth}
+			\begin{flushleft}
+				\large
+				\textit{Autorzy}\\
+				Jakub \textsc{Kacorzyk} \\
+				Bartłomiej \textsc{Łazarczyk}
+			\end{flushleft}
+		\end{minipage}
+		~
+		\begin{minipage}{0.4\textwidth}
+			\begin{flushright}
+				\large
+				\textit{Prowadzący}\\
+				dr inż. Wojciech \textsc{Szmuc} % Supervisor's name
+			\end{flushright}
+		\end{minipage}
+		
+		%------------------------------------------------
+		%	Logo
+		%------------------------------------------------
+		
+		\vfill
+		\includegraphics[scale=1.0]{logo.jpg}
+		
+		%------------------------------------------------
+		%	Data
+		%------------------------------------------------
+		
+		\vfill\vfill\vfill % Position the date 3/4 down the remaining page
+		
+		{\large\today} 
+		
+		%----------------------------------------------------------------------------------------
+		
+		\vfill % Push the date up 1/4 of the remaining page
+		
+	\end{titlepage}
+	
+	\tableofcontents
+	\cleardoublepage
+	\setcounter{page}{2}
+	
+		\section{Opis projektu}
+		
+		
+		
+		Urządzenie mobilne można lokalizować w zależności od sytuacji w jakiej się znajduje. Rozpatrujemy sytuację, gdy smartfon znajduje się wewnątrz budynku(w pomieszczeniu) tzw. indoor oraz drugą opcję- outdoor, czyli poza budynkiem. W zależności od położenia smarfona względem budynku mamy do wyboru różne opcje lokalizacji.
+		
+		\section{Lokalizacja w środowisku typu outdoor}
+		
+		Położenie smarfona na zewnątrz budynku ułatwia nam dosyć sprawę, ponieważ możemy korzystać bezpośrednio z sygnału GPS. Wokół naszej planety krążą 24 wojskowe satelity wykorzystywane wcześniej wyłącznie w celach militarnych, obecnie dostęp mają również cywile, za pomocą których określamy położenie naszego urządzenia z dokładnością do 5 metrów. Gdy chcemy określić dokładne położenie potrzebujemy co najmniej czterech satelitów. Następnie dekodujemy sygnał, porównujemy odpowiednie czasy, bierzemy pod uwagę teorię względności i otrzymujemy dokładne położenie na powierzchni naszej planety. 
+		
+		Na system GPS składają się dokładnie trzy segmenty: kosmiczny, użytkownika, kontorli. Najbardziej interesującym nas jest segment użytkownika, ponieważ z niego będziemy korzystać i tak naprawdę na nim się skupimy.
+		
+		Nasza aplikacja jak i wszystkie inne działające w podobny sposób będzie korzystać właśnie z sygnału GPS do określenia położenia danego użytkownika na zewnątrz budynku. Po włączeniu aplikacji, smartfon automatycznie wyszukuje co najmniej 4 dostępne, najbliższe satelity znajdujące się 20 tyś km nad ziemią. Cztery jest to liczba minimalna potrzebna do prawidłowego określenia położenia, im więcej tym dokładniejsza pozycja. Każda z satelit wysyła fale radiowe, które są odbierane przez nasze urządzenie, na tej podstawie nasz telefon określa odległość od satelity. Sygnały radiowe biegną od satelity do telefonu z prędkością światła. Następnie telefon notuje otrzymane sygnały i przelicza na odległość od satelity korzystając ze wzoru: odległość = c * czas. C jest to prędkość światła- z taką właśnie poruszają się fale radiowe, czas jest to czas potrzebny fali na przebycie drogi od satelity do telefonu. Nie jest to jednak takie proste, ze względu na fakt, że światło jest bardzo szybkie. Nie możemy mierzyć czasu z dokładnością do sekund, bo wówczas odległość z każdego miejsca na ziemi do satelity wydawała by się taka sama. Jest jednak rozwiązanie tej sytuacji. Rozwiązaniem jest bardzo dokładny zegar, którym jest zegar atomowy. Zegary te opierają się na fizyce kwantowej. Nie wgłębiając się w szczegóły chodzi tutaj o zmiane poziomu energii w atomie.
+		
+		Satelity używają atomów Cezu i Rubidu jako wyznaczników zmiany częstotliwości, czyli de facto naszych zegarów. Dzięki zegarom atomowym czas odczytywany jest z dokładnością do jednej miliardowej sekundy co daje bardzo dokładny pomiar odległości od satelity.
+		
+		Smartfon znajdujący się na powierzchni ziemi jest w zasięgu promienia satelity, dokładając drugi promień satelity otrzymujemy nakładające się kręgi. Dokładamy trzeci i czwarty promień kolejnych satelit i dzięki małej poprawce według teorii względności Einsteina możemy dokładnie określić położenie na kuli ziemskiej.
+		
+		
+		Nie należy natomiast zapominać, że wynik uzyskany przez naszą aplikację nie jest zawsze w 100\% dokładny, ponieważ na odczyt wpływa wiele zakłóceń. Jedna z przyczyn jest ilość satelit, z którymi nasza aplikacja się łączy. Im więcej jest dostępnych satelit tym dokładniejsze jest określenie lokalizacji naszego urządzenia mobilnego. Pamiętajmy, że warstwy atmosfery ziemskiej wpływają niekorzystnie na odczyt, zarówno jak i sama grawitacja oraz przede wszystkim różnego rodzaju zakłócenia fal radiowych.
+		
+		\section{Lokalizacja w środowisku typu indoor}	 
+		
+		
+		Z powodu braku odpowiedniej dokładności przy ustalaniu lokalizacji wewnątrz budynków za pomocą GPS spowodowanej blokowaniem sygnału przez fizyczne przeszkody,  należy stworzyć  strategię wyznaczania pozycji w środowisku typu indoor bez udziału informacji uzyskanych przez GPS.
+		
+		W obecnych czasach istnieje wiele technologii umożliwiających dokładne określenie lokalizacji bez wykorzystania sygnału GPS, jednak żadna z nich nie może zostać uznana za uniwersalną. Każda z nich jest oceniana według następujących kryterium: trafność ustalonej pozycji oraz jej precyzja, możliwe pokrycie obszaru daną technologią, interwał aktualizacji położenia, koszt obliczeniowy, dostępna infrastruktura, czas ustalenia lokalizacji oraz możliwość ustalenia położenia w trybie offline. Wybór technologii odbywa się poprzez analizę zalet i wad w kontekście do rezultatu, który chcemy osiągnąć.
+		
+		Obecnie za technologię o największym potencjale uznaje się ustalanie lokalizacji za pomocą infrastruktury sieci bezprzewodowej Wi-Fi. Jej głównym atutem jest powszechność w większości budynków, możliwość przechodzenia sygnału przez ściany oraz wsparcie ze strony komercyjnych produktów takich jak np. telefony. Powyższe zalety oznaczają również niski koszt danej technologii oraz możliwość łatwego wykorzystania jej przez użytkowników oraz placówki. Wykorzystanie sieci Wi-Fi oferuje również wiele technik wyznaczania lokalizacji. Jedną z najpopularniejszych jest technika triangulacji na podstawie wskaźnika siły otrzymanego sygnału (Received Signal Strength Indicator). Metoda ta ustala dystans od punktów dostępu (Access Point) na podstawie siły otrzymywanego od nich sygnału a następnie geometrycznie wyznacza pozycję urządzenia. W tym procesie zakładamy, że położenie punktów dostępu jest dokładnie znane. Każdy punkt dostępowy otrzymuje zapytanie od kontrolera WLAN o odbierany poziom sygnału od urządzenia bezprzewodowego, którego pozycja jest właśnie ustalana. Punkty dostępowe, które nie wykrywają urządzenia otrzymują zapytanie, ale nie biorą udziału w określaniu pozycji. Im więcej punktów dostępowych bierze udział w procesie tym dokładniejsze będzie określenie pozycji danego urządzenia. Następnie narzędzie do analizy informacji kreśli na mapie sieci okręgi wokół punktów \mbox{dostępowych.} 
+		
+		\mbox{Narzędzie} sprawdza miejsce przecięcia linii okręgów. Miejsce w którym występuje największa liczba przecinających się linii będzie określała położenie danego urządzenia.
+		
+		Inną popularną techniką jest tzw. Fingerprinting. Polega ona na zbudowaniu bazy informacji o sile sygnału dla wszystkich punktów dostępu w danym budynku. Tworzona jest dokładna mapa odwzorowująca model środowiska radiowego, który zawiera kompletną charakterystykę fizyczną przestrzeni (ściany, drzwi, okna, przeszkody, itp.) oraz rozmieszczenie punktów dostępowych.
+		Punkty dostępowe wykorzystują technologię RF Fingerprint do stworzenia topologii RF określonego terenu. W ten sposób powstaje siatka punktów z określonymi właściwościami RF. Następnie zbiór informacji o sygnale jest wykorzystywany do określenia pozycji użytkownika na podstawie np. różnicy dwóch sygnałów. Metoda fingerprint pozwala również na śledzenie lokalizacji bez dostępu do internetu, pod warunkiem, że baza informacji o sygnale w danym budynku jest dostępna w pamięci urządzenia lokalizującego.
+		
+		Popularnym trendem jest również uzupełnienie metod lokalizacji używających gotowej infrastruktury metodami opierającymi się na urządzeniach pomiarowych zintegrowanych w urządzeniach użytkownika. Jednym z przykładów może być metoda Dead-recking, która polega na zbieraniu informacji z akcelerometru oraz magnetometru. Mówiąc szerzej- jest to proces polegający na obliczaniu aktualnej pozycji za pomocą wcześniej ustalonej pozycji i przesuwania tej pozycji w oparciu o znane albo szacowane prędkości. Dzięki tym informacją możliwe jest wygenerowanie ścieżki poruszania się użytkownika, która jest wykorzystywana do weryfikacji lub sprecyzowania lokalizacji uzyskanej z innej metody. 
+		
+		Innym zastosowaniem może być przewidzenie następnej pozycji użytkownika w celu zniwelowania dużego interwału czasowego między synchronizacją lokalizacji. Warto dodać, że metoda ta posiada znaczną ilość błędów. Prędkość jak i kierunek muszą być dokładnie znane w każdym momencie, w celu określenia dokładnej pozycji. Jako przykład możemy tu przytoczyć mierzenie przemieszczenia jako liczba obrotów koła, każda rozbieżność wynikająca np. z poślizgu kół generuje błąd, który z każdym oszacowaniem będzie się sumował, co w konsekwencji doprowadzi do dużych wartości błędów.
+		
+		Ostatnim z omawianych przez nas sposobów lokalizacji wewnątrz budynku jest lokalizacja na podstawie tzw. beaconów(Bluetooth Low Energy). Wyznaczanie lokalizacji smartfona działającego pod Androidem odbywa się na podstawie analizy sygnału odbieranego od innych beaconów, których lokalizacje już znamy. Przy okazji pobierania mocy sygnału odebranego o beacona odbierane są również : moc nadajnika- jako moc odebrana w odległości 1m oraz identyfikator, który umożliwia jednoznaczne rozpoznanie urządzenia.
+		W metodzie tej aplikacja odbiornika wykorzystuje dane o położeniu pozostałych beaconów opisanych w dwóch wymiarach. Moc, która została odebrana z każdego beacona jest przeliczana na odległość, która pokonał dany sygnał. Następnie dzięki temu jesteśmy w stanie wyznaczyć odpowiednie położenie odbiornika, czyli w naszym przypadku smartfona.
+		
+		Jednak nie należy zapominać o wadach tej konkretnej metody, którymi w tym przypadku jest słaba \mbox{dokładność.} 
+		Metoda ta pozwala uzyskać tylko przybliżone wartości . W rzeczywistości moc sygnału zależy od wielu czynników, mi. : zależności orientacji anteny odbierającej względem anteny nadającej, wystarczy zmienić orientacje telefonu; środowisko rozchodzenia się fal zmienia się w czasie i zależy od konkretnego pomieszczenia w którym się znajdujemy; zależy od liczby osób znajdujących się w konkretnym pomieszczeniu oraz od modelu telefonu- konkretniej od anteny w nim występującej.
+		Z powyższego wynika, że wyznaczenie nawet kilku prób powoduje wahania w odczytywanych wartościach, dochodzące nawet do 50 \%. Niewątpliwie w tej metodzie należy wykonywać serie próbek w celu wyznaczenia lokalizacji, należy również odrzucić próbki, które znacznie odbiegają od mediany. Niemniej jednak forma tej lokalizacji nadaje się do pomieszczeń zamkniętych z mała ilością osób
+		
+		
+		
+		\begin{thebibliography}{3}
+			-Z. Farid, 
+			R. Nordin, M. Ismail	, \textit{Recent Advances in Wireless Indoor Localization Techniques and System}
+			\newline
+			- R. F. Brena, J. P. Garcia-	Vazquez, C. E. Galvan-Tejada, D. Munoz-Rodriguez, C. Vargas-Rosales, J. 	Fangmeyer Jr., \textit{Evolution of Indoor Positioning Technologies: A Survey}
+			
+			\newline
+			- B. Risteska Stojkoska, I. 	Nizetic Kosovic, T. Jagust, \textit{A Survey of Indoor Localization Techniques for Smartphones}
+			
+			\newline
+			- J. Liu(A paper written under 	the guidance of Prof. Raj Jain), \textit{Survey of Wireless Based Indoor Localization Technologies}
+			
+			\newline
+			- Trung-Kien Dao, Hung-Long Nquyen, Thanh-	Thuy Pham, E. Castelli, Viet-Tung Nquyen, Dinh-Van Nguyen, \textit{User Localization in Complex Environments by Multimodal Combination of GPS, WiFi, RFID, and Pedometer Technologies}
+			
+			\newline
+			- J. Ibrahim Al-Azizi, H. Zulhaidi Mohd Shafri, \textit{Performance Evaluation of Pedestrian Locations Based on Contemporary Smartphones}
+			
+			\newline
+			- M. Ros, 	J. Boom, G. de Hosson, M. D’Souza, \textit{Indoor Localisation Using a Context-Aware Dynamic Position Tracking Model}
+			
+		\end{thebibliography}
+		
+	\section{Model zjawiska.}
+	
+	
+		Modelem naszego projektu są dwa mniejsze modele - model lokalizacji outdoor i model lokalizacji indoor. Model lokalizacji outoor bazuje na sygnale GPS, który świetnie sprawuje się poza budynkami, zaś model lokalizacji indoor na WiFi oraz urządzeniach pomiarowych znajdujących się w smartfonach. Proponowany przez nas model posiada dwa główne cele : dostarczenie jak najdokłdniejszej możliwej lokalizacji oraz stworzenie trasy przebytej przez urządenie. Lokalizacja jest dostarczana za pomocą sygnału GPS (w przypadku outdoor) lub za pomocą WiFi(w przypadku indoor), natomiast trasa jest to połączony liniami zbiór lokalizacji w których znajdowało się urządzenie. Zbiór ten tworzony jest na podstawie zmian w położeniu o mnimalną zadaną odległość. Model oczywiście nie jest idealny, gdyż informacje jakie otrzymujemy z zewnątrz są dokładniejsze lub nie w zależności od wielu czynników.
+		
+		 Głównym wejściem naszego modelu jest interakcja użytkownika, gdyż to on wybiera czy chce poznać swoją lokalizację i trasę w przypadku indoor czy w przypadku outdoor. Kolejnymi wejściami są dane z różnych modułów, dzięki którym, odpowiednio je przetwarzając, jesteśmy w stanie obliczyć naszą aktualną lokalizację. Wyjściami naszego modelu jest lokalizacja o wyliczonej dokładności lub zaznoczony na mapie zbiór lokalizacji, w których się znajdowaliśmy, tworzący  trasę przebytą przez urządenie na przestrzeni poruszania się.
+		 
+		 Zdecydowaliśmy się na wybranie takich sposbów stworzenia tego modelu, gdyż na podstawie wyżej wymienionych metod w literaturze te były najczęściej wykorzystywane i dawały stosunkowo dobre wyniki do stopnia trudności implementacji, a także do zasabów do których mamy dostęp.
+		 
+	\section{Implementacja.}
+	
+		Wybraliśmy androida jako system na którym zaimplementujemy nasz opisany wcześniej model, gdyż nasz projekt zakłada, że ma to być aplikacja mobilna. Głónymi urządzeniami które będą przez nas używane do testowania aplikacji i generowania statystyk są smartfony z androidem 5.0 lub wyższym. Za nasze środowisko wybraliśmy Andorid Studio, gdyż jest najsześciej wybieranym środowiskiem przez profesjonalistów oraz jest darmowe na potrzeby nauki. 
+\end{document}
