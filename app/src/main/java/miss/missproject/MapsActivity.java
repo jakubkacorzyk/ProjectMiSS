@@ -183,6 +183,7 @@ public class MapsActivity extends AppCompatActivity
 
     public void beginTracking(View view) {
         shouldAddCoordinates = shouldAddCoordinates ? false : true;
+        makeButtonsVisibleOrNot();
         String buttonText = ((Button) view).getText().toString();
         buttonText = buttonText.equals("TRACK") ? "STOP TRACKING" : "TRACK";
         ((Button) view).setText(buttonText);
@@ -197,9 +198,6 @@ public class MapsActivity extends AppCompatActivity
                 }
             }
 
-        } else {
-            coordinates.clear();
-            mMap.clear();
         }
     }
 
@@ -245,5 +243,20 @@ public class MapsActivity extends AppCompatActivity
     public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
 
         Log.i("called", "onStatusChanged");
+    }
+
+    private void makeButtonsVisibleOrNot(){
+        View button = findViewById(R.id.button5);
+        int changedVisibility = button.getVisibility() == View.VISIBLE ? View.INVISIBLE : View.VISIBLE;
+        button.setVisibility(changedVisibility);
+        button = findViewById(R.id.button7);
+        changedVisibility = button.getVisibility() == View.VISIBLE ? View.INVISIBLE : View.VISIBLE;
+        button.setVisibility(changedVisibility);
+    }
+
+    public void clear(View view){
+
+        coordinates.clear();
+        mMap.clear();
     }
 }

@@ -67,6 +67,7 @@ public class MapsIndoorActivity extends AppCompatActivity
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        this.initializeLocationManager();
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(myToolbar);
@@ -78,7 +79,6 @@ public class MapsIndoorActivity extends AppCompatActivity
             }
         });
 
-        this.initializeLocationManager();
     }
 
     private void initializeLocationManager() {
@@ -182,6 +182,7 @@ public class MapsIndoorActivity extends AppCompatActivity
 
     public void beginTracking(View view) {
         shouldAddCoordinates = shouldAddCoordinates ? false : true;
+        makeButtonsVisibleOrNot();
         String buttonText = ((Button) view).getText().toString();
         buttonText = buttonText.equals("TRACK") ? "STOP TRACKING" : "TRACK";
         ((Button) view).setText(buttonText);
@@ -195,9 +196,6 @@ public class MapsIndoorActivity extends AppCompatActivity
                 }
             }
 
-        } else {
-            coordinates.clear();
-            mMap.clear();
         }
     }
 
@@ -224,6 +222,9 @@ public class MapsIndoorActivity extends AppCompatActivity
     public void onProviderDisabled(String arg0) {
 
         Log.i("called", "onProviderDisabled");
+        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        boolean test =  lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
         Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
         startActivity(intent);
         Toast.makeText(getBaseContext(), "Gps is turned off!! ",
@@ -243,5 +244,19 @@ public class MapsIndoorActivity extends AppCompatActivity
     public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
 
         Log.i("called", "onStatusChanged");
+    }
+
+    private void makeButtonsVisibleOrNot(){
+        View button = findViewById(R.id.button5);
+        int changedVisibility = button.getVisibility() == View.VISIBLE ? View.INVISIBLE : View.VISIBLE;
+        button.setVisibility(changedVisibility);
+        button = findViewById(R.id.button7);
+        changedVisibility = button.getVisibility() == View.VISIBLE ? View.INVISIBLE : View.VISIBLE;
+        button.setVisibility(changedVisibility);
+    }
+
+    public void clear(View view){
+        coordinates.clear();
+        mMap.clear();
     }
 }
