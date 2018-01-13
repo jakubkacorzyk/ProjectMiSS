@@ -35,6 +35,7 @@ import android.view.View;
 import android.widget.Toast;
 import android.widget.Button;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -52,6 +53,8 @@ public class MapsActivity extends AppCompatActivity
 
     private boolean shouldAddCoordinates = false;
     private List<LatLng> coordinates = new LinkedList<>();
+    private List<Location> locations = new LinkedList<>();
+
 
     private boolean mPermissionDenied = false;
 
@@ -193,6 +196,7 @@ public class MapsActivity extends AppCompatActivity
                     && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 Location location = lm.getLastKnownLocation(locationProvider);
                 if (location != null) {
+                    locations.add(location);
                     LatLng coordinate = new LatLng(location.getLatitude(), location.getLongitude());
                     coordinates.add(coordinate);
                 }
@@ -212,6 +216,7 @@ public class MapsActivity extends AppCompatActivity
         this.mMap.animateCamera(zoom);
         if(shouldAddCoordinates){
             LatLng coordinate = new LatLng(location.getLatitude(),location.getLongitude());
+            locations.add(location);
             coordinates.add(coordinate);
             Polyline line = mMap.addPolyline(new PolylineOptions()
                     .addAll(coordinates)
@@ -258,5 +263,12 @@ public class MapsActivity extends AppCompatActivity
 
         coordinates.clear();
         mMap.clear();
+    }
+
+    public void stats(View view){
+        Intent activity = new Intent(this, StatsActivityIndoor.class);
+        activity.putExtra("ListLocation", (Serializable) locations);
+        activity.putExtra("ListCoordinates",(Serializable) coordinates);
+        this.startActivity(activity);
     }
 }
