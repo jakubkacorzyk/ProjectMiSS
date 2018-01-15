@@ -75,12 +75,20 @@ public class StatsActivityOutdoor extends AppCompatActivity {
 
     private double calculateAltitude(){
         Location firstLocation = findFirstLocationAltitude();
-        Location lastLocation = getLastLocation();
+        Location lastLocation = getLastKnownLocation();
         return lastLocation.getAltitude()-firstLocation.getAltitude();
     }
 
-    private Location getLastLocation(){
-        return locations.get(locations.size()-1);
+    private Location getLastKnownLocation(){
+        Location result = locations.get(locations.size()-1);
+        for (int i=locations.size()-1;i>=0;i--){
+            Location tmp = locations.get(i);
+            if(tmp.hasAltitude()){
+                result = tmp;
+                break;
+            }
+        }
+        return result;
     }
 
     private Location findFirstLocationAltitude() {
@@ -125,7 +133,7 @@ public class StatsActivityOutdoor extends AppCompatActivity {
     }
     private int calculateTimeInSecond(){
         long timeStart = locations.get(0).getTime();
-        long timeEnd = getLastLocation().getTime();
+        long timeEnd = locations.get(locations.size()-1).getTime();
         int seconds = (int) TimeUnit.MILLISECONDS.toSeconds(timeEnd-timeStart);
         return seconds;
     }
