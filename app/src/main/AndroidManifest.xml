@@ -38,6 +38,17 @@
             android:label="MapsForIndoor">
 
         </activity>
+        <activity
+        android:name=".StatsActivityIndoor"
+        android:label="Statistics">
+
+    </activity>
+        <activity
+            android:name=".StatsActivityOutdoor"
+            android:label="Statistics">
+
+        </activity>
+
 
         <activity android:name=".MainActivity" android:label="MISS Project">
             <intent-filter>
