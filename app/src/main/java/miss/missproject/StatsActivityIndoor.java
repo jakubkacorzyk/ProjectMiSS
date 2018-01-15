@@ -10,8 +10,6 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import java.time.Duration;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -76,12 +74,12 @@ public class StatsActivityIndoor extends AppCompatActivity {
     }
 
     private double calculateAltitude(){
-        Location firstLocation = findFirstLocationAltitude();
-        Location lastLocation = getLastKnownLocation();
+        Location firstLocation = findFirstKnownLocationAltitude();
+        Location lastLocation = findLastKnownLocationAltitude();
         return lastLocation.getAltitude()-firstLocation.getAltitude();
     }
 
-    private Location getLastKnownLocation(){
+    private Location findLastKnownLocationAltitude(){
         Location result = locations.get(locations.size()-1);
         for (int i=locations.size()-1;i>=0;i--){
             Location tmp = locations.get(i);
@@ -93,15 +91,15 @@ public class StatsActivityIndoor extends AppCompatActivity {
         return result;
     }
 
-    private Location findFirstLocationAltitude() {
+    private Location findFirstKnownLocationAltitude() {
         Location result = locations.get(0);
-        for(Location location : locations){
-            if (location.hasAltitude()){
-                result = location;
+        for (int i=0;i<locations.size();i++){
+            Location tmp = locations.get(i);
+            if(tmp.hasAltitude()){
+                result = tmp;
                 break;
             }
-        }
-        return result;
+        }return result;
     }
 
     private void speed(){
