@@ -91,7 +91,7 @@ public class MapsIndoorActivity extends AppCompatActivity
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
                     1000,
-                    1, this);
+                    3, this);
 
         }
 
